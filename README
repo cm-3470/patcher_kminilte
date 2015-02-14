@@ -1,7 +1,7 @@
-Patcher for Samsung Galaxy Light
+Patcher for Samsung Galaxy S5 mini (G800F)
 
 To patch custom ROM source put the script in the root of the custom ROM
 
 To fetch patches run
 
-./gardalte.sh 
+./kminilte.sh 
