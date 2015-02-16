@@ -1,11 +1,15 @@
 #!/bin/bash
 
+# Install manifest
+cp roomservice.xml .repo/local_manifests/roomservice.xml
+
 # Grab all Samsung Galaxy S5 mini (G800F) patches
 
 # BUILD
 cd build
 
 # Recovery: remove wiping of res folder
+# TODO: remove. Already fixed by 3454ade92db48236057814f0ade5fa45bd57cd62 (uses /twres now)
 #git fetch https://github.com/omnirom/android_build.git android-5.0
 #git cherry-pick 12df78d8848325537d64ff0d0370aac6af203866
 cd -
