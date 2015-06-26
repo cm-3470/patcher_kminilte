@@ -1,0 +1,39 @@
+From d5e318983e2424b55d7dffe0d8278f90fd8f8b47 Mon Sep 17 00:00:00 2001
+From: Andreas Schneider <asn@cryptomilk.org>
+Date: Thu, 23 Apr 2015 07:43:30 +0200
+Subject: [PATCH] updater: libext4_utils requires linking against lz4
+
+Change-Id: Ib1a564c1a1003aebd0bde88a1ad1c2711fca4ffd
+Signed-off-by: Andreas Schneider <asn@cryptomilk.org>
+---
+ updater/Android.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/updater/Android.mk b/updater/Android.mk
+index 0045d6f..65d362e 100644
+--- a/updater/Android.mk
++++ b/updater/Android.mk
+@@ -25,17 +25,20 @@ LOCAL_CFLAGS += -Wno-unused-parameter
+ LOCAL_C_INCLUDES += system/extras/ext4_utils
+ LOCAL_STATIC_LIBRARIES += \
+     libext4_utils \
++    liblz4-static \
+     libz
+ ifneq ($(wildcard system/core/libmincrypt/rsa_e_3.c),)
+ LOCAL_STATIC_LIBRARIES = \
+     libext4_utils_static \
+     libsparse_static \
++    liblz4-static \
+     libz
+ endif
+ ifneq ($(wildcard system/core/include/mincrypt/sha256.h),)
+ LOCAL_STATIC_LIBRARIES = \
+     libext4_utils_static \
+     libsparse_static \
++    liblz4-static \
+     libz
+ endif
+ endif
+-- 
+2.3.5
+
