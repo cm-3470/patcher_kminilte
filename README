@@ -1,7 +1,125 @@
+###########################################################################
 Patcher for Samsung Galaxy S5 mini (G800F)
+###########################################################################
 
-To patch custom ROM source put the script in the root of the custom ROM
+Patches custom ROM source with device specific code modifications
 
-To fetch patches run
+===========================================================================
+How To Build CyanogenMod Android for Samsung Galaxy S5 mini (G800F/M/Y)
+===========================================================================
 
-./setup.sh 
+CyanogenMod provides "How to build" instructions for some devices. Although this device is not officially supported,
+the build-steps are not that different between devices. Most of the information on this page also apply to this device: 
+http://wiki.cyanogenmod.org/w/Build_for_t0lte
+
+Requirements:
+* At least 8GB RAM (build will stop without a warning with 6GB)
+* 65GB (sources and build results) + 35GB (CCACHE)
+
+Perform the following steps from the above "How to build":
+1. Install the SDK
+2. Install the Build Packages
+
+3. Create the directories
+  $ mkdir -p ~/bin
+  $ mkdir -p ~/android/system
+
+  Note: you can replace the build root "~/android/system" with any directory you like. 
+  Let's assume it is "~/android/system" in the following steps.
+  
+4. Install the repo command
+  $ curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  $ chmod a+x ~/bin/repo
+
+5. Put the ~/bin directory in your path of execution
+
+6. Initialize the CyanogenMod source repository
+  Here you have to replace "cm-12.0" with "cm-12.1":
+    $ cd ~/android/system/
+    $ repo init -u https://github.com/CyanogenMod/android.git -b cm-12.1
+
+7. Download the source code
+  $ repo sync
+
+8. Patch sources
+8.1. Copy local manifest from this patcher repository to the CM build directory and fetch device specific sources:
+  $ cd ~/android/system/
+  $ cp <patcher-dir>/roomservice.xml .repo/local_manifests/
+  $ repo sync
+8.2. Apply device specific patches (execute commands from build root):
+  $ <patcher-dir>/setup.sh 
+
+9. Prepare the device-specific code
+  This step is device specific and hence different from the "How to build".
+  
+  $ source build/envsetup.sh
+  $ lunch cm_kminilte-userdebug
+
+  These commands only have a temporary effect, you will have to perform these commands again, 
+  when you use a new terminal window.
+  
+10. Turn on caching to speed up build
+  Only if you want to rebuilt CM multiple times you also should enable CCACHE
+
+11. Start the build
+  $ croot
+  $ mka bacon
+
+===========================================================================
+# Build-results:
+===========================================================================
+
+The build-process takes a lot of time - the initial build can take about 10h. If CCACHE is enabled, 
+the next builds only take 3-4 hours.
+Note that especially the linking process (ld) needs a huge amount of memory. The building process stops
+without a warning if only 6GB are present. In this case you can try to build with only one process (mka bacon -j1).
+
+When the build-process finished the following files will be available:
+  CyanogenMod image: out/target/product/kminilte/cm-12.1-<date>-UNOFFICIAL-<device>.zip
+  recovery: out/target/product/kminilte/recovery.img
+
+===========================================================================
+# Rebuild:
+===========================================================================
+
+If you want to rebuild the ROM, perform the following steps:
+  $ repo sync
+  $ mka clean
+  $ mka bacon
+
+"repo sync" might fail due to local source code modifications. In this case temporarily revert the changes and 
+reapply them after the update:
+  $ repo sync (-> fails due to local modifications, failing subprojects are listed in log-output)
+  * for each failing subproject, save and revert changes:
+    $ cd <subproject-dir>
+    $ git stash
+  $ croot
+  $ repo sync
+  * for each previously failing subproject, reapply changes:
+    $ cd <subproject-dir>
+    $ git stash pop
+
+===========================================================================
+# Recovery:
+===========================================================================
+
+By default only a simple recovery is built with CM. If you want to build TWRP recovery instead, replace the directory "bootable/recovery"
+with the source of TWRP:
+  $ cd bootable
+  $ mv recovery recovery.orig
+  $ git clone -b android-5.1 https://github.com/omnirom/android_bootable_recovery recovery.twrp
+  $ ln -s recovery.twrp recovery
+  
+Now make a clean build (see aboce) and the TWRP recovery should be available as
+  out/target/product/kminilte/recovery.img
+
+Note that updating with "repo sync" will fail now. Before you update, temporarily replace TWRP recovery with the original recovery:
+  $ cd bootable
+  $ rm recovery
+  $ ln -s recovery.orig recovery
+  $ croot
+  $ repo sync
+  $ cd bootable
+  $ rm recovery
+  $ ln -s recovery.twrp recovery
+  

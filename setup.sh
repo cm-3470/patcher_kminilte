@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Install manifest
-cp roomservice.xml .repo/local_manifests/roomservice.xml
-
 # Grab all Samsung Galaxy S5 mini (G800F) patches
 
 # BUILD
