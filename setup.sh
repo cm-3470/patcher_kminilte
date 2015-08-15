@@ -15,21 +15,26 @@ function git-patch {
   else
     git remote add $1 $2 || return 1
   fi
+  
+  #git reset --hard github/$3
+  #echo
+  
   #git cherry github/$3 cm-3470/$3
+  
   git pull --no-edit $1 $3 || return 2
-  #git rebase  
+  git rebase github/$3 || return 3
 }
 
 # Grab all Samsung Galaxy S5 mini (G800F) patches
 
-# recovery might be replaced by TWRP -> only patch if original recovery is used
+# recovery might be replaced by TWRP -> only patch if CM recovery is used
 echo "Patching bootable/recovery"
 cd bootable/recovery
 recovery_url=`git config --get remote.github.url`
 if [ "$recovery_url" = "https://github.com/CyanogenMod/android_bootable_recovery" ]; then
   git-patch cm-3470 https://github.com/cm-3470/android_bootable_recovery.git $CM_BRANCH || exit 1
 else
-  echo "WARN: Recovery does not seem to be originial one -> patches will not be applied"
+  echo "WARN: Recovery does not seem to be CM one -> patches will not be applied"
 fi
 cd $WORK_DIR
 
