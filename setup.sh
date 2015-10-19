@@ -2,7 +2,7 @@
 
 WORK_DIR=`pwd`
 
-CM_BRANCH=cm-12.1
+CM_BRANCH=cm-13.0
 
 if [ ! -d bionic ]; then
   echo "This script must be executed from the CyanogenMod root directory"
@@ -64,6 +64,6 @@ if false; then
     git clone https://github.com/omnirom/android_bootable_recovery recovery.twrp || exit 1
     ln -s recovery.twrp recovery
     cd recovery
-    git checkout android-5.1 || exit 1
+    git checkout android-6.0 || exit 1
     cd $WORK_DIR
 fi
