@@ -7,6 +7,7 @@
   <project name="cm-3470/android_kernel_samsung_kminilte" path="kernel/samsung/kminilte" remote="github" />
   <project name="cm-3470/android_hardware_samsung_slsi_exynos3470" path="hardware/samsung_slsi/exynos3470" remote="github" />
   <project name="CyanogenMod/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" />
+  <project name="CyanogenMod/android_packages_apps_Snap" path="packages/apps/Snap" />
   <project name="CyanogenMod/android_hardware_samsung" path="hardware/samsung" />
   <project name="CyanogenMod/android_external_stlport" path="external/stlport" remote="github" />
 </manifest>
