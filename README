@@ -46,8 +46,9 @@ Perform the following steps from the above "How to build":
   $ cd ~/android/system/
   $ cp <patcher-dir>/roomservice.xml .repo/local_manifests/
   $ repo sync
-8.2. Apply device specific patches (execute commands from build root):
-  $ <patcher-dir>/setup.sh 
+8.2. Apply device specific patches (also repeat this step whenever the patches in the directory "patch" are modified):
+  $ cd device/samsung/kminilte/patch
+  $ ./apply.sh 
 
 9. Prepare the device-specific code
   This step is device specific and hence different from the "How to build".
@@ -90,14 +91,10 @@ If you want to rebuild the ROM, perform the following steps:
 "repo sync" might fail due to local source code modifications. In this case temporarily revert the changes and 
 reapply them after the update:
   $ repo sync (-> fails due to local modifications, failing subprojects are listed in log-output)
-  * for each failing subproject, save and revert changes:
-    $ cd <subproject-dir>
-    $ git stash
+  * for each failing subproject, revert the changes (e.g. with git reset --hard ...)
   $ croot
   $ repo sync
-  * for each previously failing subproject, reapply changes:
-    $ cd <subproject-dir>
-    $ git stash pop
+  * now reapply the patches (see section about device/samsung/kminilte/patch/apply.sh)
 
 ===========================================================================
 # Recovery:
