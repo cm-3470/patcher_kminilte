@@ -9,4 +9,9 @@
   <project name="CyanogenMod/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" />
   <project name="CyanogenMod/android_hardware_samsung" path="hardware/samsung" />
   <project name="CyanogenMod/android_external_stlport" path="external/stlport" remote="github" />
+
+  <!-- replace recovery with TWRP -->
+  <remove-project name="CyanogenMod/android_bootable_recovery" />
+  <project name="omnirom/android_bootable_recovery" path="bootable/recovery" remote="github" revision="android-6.0" />  
+  <project name="CyanogenMod/android_external_busybox" path="external/busybox" remote="github" />  
 </manifest>
